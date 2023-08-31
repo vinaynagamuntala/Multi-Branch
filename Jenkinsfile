@@ -15,7 +15,7 @@ pipeline{
       when{
         expression{
           // def changes 
-          return changes = changeset branch: main
+          return changes == changeset branch: main
         }
       }
       steps{
