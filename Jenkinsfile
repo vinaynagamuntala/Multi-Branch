@@ -14,7 +14,7 @@ pipeline{
     stage('merge'){
       when{
         expression{
-          def changes = changeset branch: env.BRANCH_NAME
+          def changes = changeset branch: main
           return changes
         }
       }
