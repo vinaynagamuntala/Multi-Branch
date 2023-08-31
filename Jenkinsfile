@@ -12,16 +12,23 @@ pipeline{
       } 
     }
     stage('merge'){
-      steps{
-        script {
-          def changes = scm.changeset()
-          if (changes) {
-            echo "Changes detected in the repository"
-          } else {
-            echo "No changes detected in the repository"
-            currentBuild.result = 'SUCCESS'  // Skip this stage if no changes
-          }
+      when{
+        expression{
+          def changes = changeset branch: env.BRANCH_NAME
+          return changes
         }
+      }
+      steps{
+        echo "Changes detected in the current branch"
+        // script {
+        //   def changes = scm.changeset()
+        //   if (changes) {
+        //     echo "Changes detected in the repository"
+        //   } else {
+        //     echo "No changes detected in the repository"
+        //     currentBuild.result = 'SUCCESS'  // Skip this stage if no changes
+        //   }
+        // }
       } 
     }
   }
