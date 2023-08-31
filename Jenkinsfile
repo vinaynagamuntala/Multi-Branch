@@ -15,7 +15,7 @@ pipeline{
       when{
         expression{
           // def changes 
-          return changes == changeset branch: main
+          return env.CHANGE_TARGET == 'main'
         }
       }
       steps{
