@@ -21,7 +21,10 @@ pipeline {
         
         stage('stage-b') {
             when {
-                expression { currentBuild.changeSets[0].commitMessage =~ /Merge pull request/ }
+                expression { 
+                    def changeSets = currentBuild.changeSets
+                    return changeSets != null && changeSets.size() > 0 && changeSets[0].commitMessage =~ /Merge pull request/
+                }
             }
             steps {
                 // Execute stage-b tasks here
@@ -30,6 +33,7 @@ pipeline {
         }
     }
 }
+
 
 // pipeline{
 //   agent any
