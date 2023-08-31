@@ -14,8 +14,8 @@ pipeline{
     stage('merge'){
       when{
         expression{
-          def changes = changeset branch: main
-          return changes
+          // def changes 
+          return changes = changeset branch: main
         }
       }
       steps{
