@@ -1,5 +1,8 @@
 pipeline{
   agent any
+//   environment {
+//     GIT_CREDENTIALS = credentials('git_token') // Replace with your credential ID
+//   }
   stages{
     stage('pull'){
       when{
@@ -17,7 +20,7 @@ pipeline{
                 // Check if there are any changes in the current branch
                 // def changes = changeset branch: main
                 // Check if there are any changes in the 'main' branch
-                withCredentials([usernamePassword(credentialsId: 'git_token', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'git_token', gitToolName: 'Default')]) {
                     def changes = checkout(
                         scm: [
                             $class: 'GitSCM',
