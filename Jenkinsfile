@@ -27,7 +27,7 @@ pipeline{
                             branches: [[name: 'main']],
                             userRemoteConfigs: [[url: 'https://github.com/vinaynagamuntala/Multi-Branch.git']],
                             extensions: [[$class: 'CleanBeforeCheckout'], [$class: 'CloneOption', noTags: false, shallow: false]],
-                            credentialsId: git_token // Use the same credential for authentication
+                            credentialsId: 'git_token' // Use the same credential for authentication
                         ]
                     )
                     return changes
