@@ -17,16 +17,15 @@ pipeline{
     stage('Check Branch Changes') {
         when {
             expression {
-                 // Check if there are any changes in the 'main' branch
-                def changes = checkout(
-                    scm: [$class: 'GitSCM',
-                        branches: [[name: 'main']], // Specify the branch name here
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[url: 'https://github.com/vinaynagamuntala/Multi-Branch.git']]] // Replace 'your-repo-url' with your actual repository URL
-                    )
-                    return changes
+                // Define the base branch you want to compare (e.g., 'main')
+                def baseBranch = 'main'
+                
+                // Check for code changes between the base branch and the current PR branch
+                def gitCmd = """git diff --name-only ${baseBranch}...HEAD"""
+                def codeChanges = sh(script: gitCmd, returnStdout: true).trim()
+                
+                // Check if there are code changes
+                return codeChanges != ''
             }
         }
         steps {
@@ -36,43 +35,3 @@ pipeline{
     }
   }
 }
-
-// pipeline {
-//     agent any
-    
-//     stages {
-//         stage('Checkout') {
-//             steps {
-//                 // Checkout the source code from your repository
-//                 checkout scm
-//             }
-//         }
-        
-//         stage('stage-a') {
-//             when {
-//                 changeset ".*pull_request.*"
-//             }
-//             steps {
-//                 // Execute stage-a tasks here
-//                 echo "Running stage-a..."
-//             }
-//         }
-        
-//         stage('stage-b') {
-//             when {
-//                 expression { 
-//                     def changeSets = currentBuild.changeSets
-//                     return changeSets != null && changeSets.size() > 0 && changeSets[0].commitMessage =~ /Merge pull request/
-//                 }
-//             }
-//             steps {
-//                 // Execute stage-b tasks here
-//                 echo "Running stage-b..."
-//             }
-//         }
-//     }
-// }
-
-// when {
-//     branch 'production'
-// }
