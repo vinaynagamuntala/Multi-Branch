@@ -17,11 +17,14 @@ pipeline{
     stage('Check Branch Changes') {
         when {
             expression {
-                // Define the base branch you want to compare (e.g., 'main')
-                def baseBranch = 'main'
+                // Define the target branch you want to compare (e.g., 'main')
+                def targetBranch = 'main'
                 
-                // Check for code changes between the base branch and the current PR branch
-                def gitCmd = """git diff --name-only ${baseBranch}...HEAD"""
+                // Update remote references to fetch the latest changes from the target branch
+                sh "git fetch origin ${targetBranch}:${targetBranch}"
+                
+                // Check for code changes between the current branch and the target branch
+                def gitCmd = """git diff --name-only ${targetBranch}...HEAD"""
                 def codeChanges = sh(script: gitCmd, returnStdout: true).trim()
                 
                 // Check if there are code changes
