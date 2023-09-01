@@ -12,6 +12,7 @@ pipeline{
       }
       steps{
         echo "Successfully detect Pull Request"
+         sh 'git branch'
       } 
     }
     stage('Check Branch Changes') {
@@ -33,6 +34,7 @@ pipeline{
         }
         steps {
             echo "Changes detected in the current branch"
+            sh 'git branch'
             // Add your additional steps for handling branch changes here
         }
     }
