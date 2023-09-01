@@ -17,21 +17,16 @@ pipeline{
     stage('Check Branch Changes') {
         when {
             expression {
-                // Check if there are any changes in the current branch
-                // def changes = changeset branch: main
-                // Check if there are any changes in the 'main' branch
-                withCredentials([gitUsernamePassword(credentialsId: 'git_token', gitToolName: 'Default')]) {
-                    def changes = checkout(
-                        scm: [
-                            $class: 'GitSCM',
-                            branches: [[name: 'main']],
-                            userRemoteConfigs: [[url: 'https://github.com/vinaynagamuntala/Multi-Branch.git']],
-                            extensions: [[$class: 'CleanBeforeCheckout'], [$class: 'CloneOption', noTags: false, shallow: false]],
-                            credentialsId: 'git_token' // Use the same credential for authentication
-                        ]
+                 // Check if there are any changes in the 'main' branch
+                def changes = checkout(
+                    scm: [$class: 'GitSCM',
+                        branches: [[name: 'main']], // Specify the branch name here
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[url: 'https://github.com/vinaynagamuntala/Multi-Branch.git']]] // Replace 'your-repo-url' with your actual repository URL
                     )
                     return changes
-                }
             }
         }
         steps {
