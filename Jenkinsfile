@@ -17,15 +17,17 @@ pipeline{
                 // Check if there are any changes in the current branch
                 // def changes = changeset branch: main
                 // Check if there are any changes in the 'main' branch
-                def changes = checkout(
-                    scm: [$class: 'GitSCM',
-                        branches: [[name: 'main']], // Specify the branch name here
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[url: 'https://github.com/vinaynagamuntala/Multi-Branch.git']]]
-                )
-                return changes
+                withCredentials([usernamePassword(credentialsId: 'git_token', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    def changes = checkout(
+                        scm: [
+                            $class: 'GitSCM',
+                            branches: [[name: 'main']],
+                            userRemoteConfigs: [[url: 'https://github.com/vinaynagamuntala/Multi-Branch.git']],
+                            extensions: [[$class: 'CleanBeforeCheckout'], [$class: 'CloneOption', noTags: false, shallow: false]],
+                        ]
+                    )
+                    return changes
+                }
             }
         }
         steps {
