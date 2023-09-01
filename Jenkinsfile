@@ -15,7 +15,16 @@ pipeline{
         when {
             expression {
                 // Check if there are any changes in the current branch
-                def changes = changeset branch: main
+                // def changes = changeset branch: main
+                // Check if there are any changes in the 'main' branch
+                def changes = checkout(
+                    scm: [$class: 'GitSCM',
+                        branches: [[name: 'main']], // Specify the branch name here
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[url: 'https://github.com/vinaynagamuntala/Multi-Branch.git']]]
+                )
                 return changes
             }
         }
