@@ -11,18 +11,19 @@ pipeline{
         echo "Successfully detect Pull Request"
       } 
     }
-    stage('merge'){
-      steps{
-        script {
-          def changes = scm.changeset()
-          if (changes) {
-            echo "Changes detected in the repository"
-          } else {
-            echo "No changes detected in the repository"
-            currentBuild.result = 'SUCCESS'  // Skip this stage if no changes
-          }
+    stage('merge') {
+        steps {
+            script {
+                def changes = scm.changeset()
+                if (changes) {
+                    echo "Changes detected in the repository"
+                    // Perform your merge logic here
+                } else {
+                    echo "No changes detected in the repository"
+                    currentBuild.result = 'SUCCESS'  // Skip this stage if no changes
+                }
+            }
         }
-      } 
     }
   }
 }
