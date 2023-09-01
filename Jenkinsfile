@@ -11,18 +11,17 @@ pipeline{
         echo "Successfully detect Pull Request"
       } 
     }
-    stage('merge') {
-        steps {
-            script {
-                def changes = scm.changeset()
-                if (changes) {
-                    echo "Changes detected in the repository"
-                    // Perform your merge logic here
-                } else {
-                    echo "No changes detected in the repository"
-                    currentBuild.result = 'SUCCESS'  // Skip this stage if no changes
-                }
+    stage('Check Branch Changes') {
+        when {
+            expression {
+                // Check if there are any changes in the current branch
+                def changes = changeset branch: env.BRANCH_NAME
+                return changes
             }
+        }
+        steps {
+            echo "Changes detected in the current branch"
+            // Add your additional steps for handling branch changes here
         }
     }
   }
