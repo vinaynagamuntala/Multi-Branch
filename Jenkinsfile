@@ -15,7 +15,7 @@ pipeline{
         when {
             expression {
                 // Check if there are any changes in the current branch
-                def changes = changeset branch: env.BRANCH_NAME
+                def changes = changeset branch: main
                 return changes
             }
         }
