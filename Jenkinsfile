@@ -13,7 +13,7 @@ pipeline{
         sh 'git branch'
       } 
     }
-    stage('Check Branch Changes') {
+    stage('Terraform apply') {
         when {
             expression {
                  // Check if there are any changes in the 'main' branch
