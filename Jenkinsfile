@@ -1,7 +1,7 @@
 pipeline{
   agent any
   stages{
-    stage('pull'){
+    stage('Terraform plan'){
       when{
         expression {
           return env.CHANGE_ID != null
@@ -9,6 +9,7 @@ pipeline{
       }
       steps{
         echo "Successfully detect Pull Request"
+        sh 'git checkout -b dev https://github.com/vinaynagamuntala/Multi-Branch.git'
         sh 'git branch'
       } 
     }
