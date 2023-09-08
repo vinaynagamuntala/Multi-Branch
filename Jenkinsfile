@@ -9,7 +9,7 @@ pipeline{
       }
       steps{
         echo "Successfully detect Pull Request"
-        sh 'git checkout -b dev https://github.com/vinaynagamuntala/Multi-Branch.git'
+        sh 'git checkout dev'
         sh 'git branch'
       } 
     }
