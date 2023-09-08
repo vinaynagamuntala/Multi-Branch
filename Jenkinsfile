@@ -36,7 +36,6 @@ pipeline{
         }
         steps {
             echo "Changes detected in the current branch"
-            sh 'git checkout main'
             sh 'git branch'
             // Add your additional steps for handling branch changes here
         }
