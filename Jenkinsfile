@@ -10,7 +10,7 @@ pipeline{
       steps{
         echo "Successfully detect Pull Request"
         sh 'git clone https://github.com/vinaynagamuntala/Multi-Branch.git'
-        sh 'git checkout dev'
+        // sh 'git checkout dev'
         sh 'git branch'
       } 
     }
