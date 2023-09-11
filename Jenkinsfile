@@ -1,8 +1,5 @@
 pipeline{
   agent any
-//   environment {
-//     GIT_CREDENTIALS = credentials('git_token') // Replace with your credential ID
-//   }
   stages{
     stage('pull'){
       when{
