@@ -9,6 +9,9 @@ pipeline{
       }
       steps{
         echo "Successfully detect Pull Request"
+        sh 'git checkout dev'
+        def currentBranch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        echo "Current branch: ${currentBranch}"
         sh 'git branch'
       } 
     }
@@ -29,6 +32,8 @@ pipeline{
         }
         steps {
             echo "Changes detected in the current branch"
+            def currentBranch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+            echo "Current branch: ${currentBranch}"
             sh 'git branch'
             // Add your additional steps for handling branch changes here
         }
