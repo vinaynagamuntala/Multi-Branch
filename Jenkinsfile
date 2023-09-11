@@ -1,13 +1,7 @@
 pipeline{
   agent any
   stages{
-    stage('git checkout') {
-      steps{
-        sh "rm -rf *"
-        sh "git clone https://github.com/vinaynagamuntala/Multi-Branch.git"
-      }
-    }
-    stage('Terraform plan'){
+    stage('pull'){
       when{
         expression {
           return env.CHANGE_ID != null
@@ -15,11 +9,10 @@ pipeline{
       }
       steps{
         echo "Successfully detect Pull Request"
-        sh 'git checkout dev'
         sh 'git branch'
       } 
     }
-    stage('Terraform apply') {
+    stage('Check Branch Changes') {
         when {
             expression {
                  // Check if there are any changes in the 'main' branch
@@ -42,3 +35,43 @@ pipeline{
     }
   }
 }
+
+// pipeline {
+//     agent any
+    
+//     stages {
+//         stage('Checkout') {
+//             steps {
+//                 // Checkout the source code from your repository
+//                 checkout scm
+//             }
+//         }
+        
+//         stage('stage-a') {
+//             when {
+//                 changeset ".*pull_request.*"
+//             }
+//             steps {
+//                 // Execute stage-a tasks here
+//                 echo "Running stage-a..."
+//             }
+//         }
+        
+//         stage('stage-b') {
+//             when {
+//                 expression { 
+//                     def changeSets = currentBuild.changeSets
+//                     return changeSets != null && changeSets.size() > 0 && changeSets[0].commitMessage =~ /Merge pull request/
+//                 }
+//             }
+//             steps {
+//                 // Execute stage-b tasks here
+//                 echo "Running stage-b..."
+//             }
+//         }
+//     }
+// }
+
+// when {
+//     branch 'production'
+// }
