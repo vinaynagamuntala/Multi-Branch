@@ -11,9 +11,8 @@ pipeline{
         echo "Successfully detect Pull Request"
         script {
           sh 'git checkout dev'
-          def currentBranch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+          def currentBranch = sh(returnStdout: true, script: 'git symbolic-ref --short HEAD').trim()
           echo "Current branch: ${currentBranch}"
-          sh 'git branch'
         }
       } 
     }
@@ -35,7 +34,7 @@ pipeline{
         steps {
             echo "Changes detected in the current branch"
             script {
-              def currentBranch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+              def currentBranch = sh(returnStdout: true, script: 'git symbolic-ref --short HEAD').trim()
               echo "Current branch: ${currentBranch}"
               sh 'git branch'
             }
